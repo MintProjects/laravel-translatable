@@ -1,6 +1,12 @@
 rat.md/laravel-translatable / Changelog
 =======================================
 
+## Version 0.1.2 (Beta)
+- Update: Don't force id as primary key identifier.
+- Fix: Throw on `scopeOrderByLocale` for MongoDB driver before executing any code.
+- Fix: Wrong config naming on merge.
+- Fix: Database migration hasn't been published.
+
 ## Version 0.1.1 (Beta)
 - Update: Change Composer namespace.
 - Fix: Wrong asset naming.

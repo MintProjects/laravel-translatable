@@ -522,14 +522,15 @@ trait Translatable
             $table = $this->newTranslationModel()->getTable();
             $local = $model->getTable();
             $morph = $model->getMorphClass();
+            $localKey = $model->getKeyName();
 
             return $query
-                ->leftJoin($table, function ($join) use ($table, $local, $morph, $locale) {
-                    $join->on("{$table}.model_id", '=', "$local.id")
+                ->leftJoin($table, function ($join) use ($table, $local, $morph, $locale, $localKey) {
+                    $join->on("{$table}.model_id", '=', "$local.{$localKey}")
                         ->where("{$table}.model_type", '=', $morph)
                         ->where("{$table}.locale", '=', $locale);
                 })
-                ->whereNull("{$table}.id")
+                ->whereNull("{$table}.{$localKey}")
                 ->select("$local.*");
         }
     }
@@ -552,9 +553,19 @@ trait Translatable
      * @param mixed $key
      * @param string $direction
      * @return Builder
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function scopeOrderByLocale(Builder $query, string $locale, string $key, string $direction = 'ASC')
     {
+        $driver = $query->getModel()->getConnection()->getDriverName();
+        if ($driver === 'mongodb') {
+            throw new \RuntimeException(sprintf(
+                'Driver "%s" not supported in scopeOrderByLocale(). Supported: mysql, mariadb, pgsql, sqlite.',
+                $driver
+            ));
+        }
+
         if ($key === '') {
             throw new \InvalidArgumentException(
                 sprintf('The JSON key must not be empty on class %s.', static::class)
@@ -562,21 +573,20 @@ trait Translatable
         }
 
         $dir = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
-
         $model = $this->newTranslationModel();
         $table = $model->getTable();
         $morph = $this->getMorphClass();
         $local = $this->getTable();
 
         // Join
-        $query->leftJoin($table, function ($join) use ($locale, $morph, $local, $table) {
-            $join->on("{$table}.model_id", '=', "{$local}.id")
+        $localKey = $model->getKeyName();
+        $query->leftJoin($table, function ($join) use ($localKey, $locale, $morph, $local, $table) {
+            $join->on("{$table}.model_id", '=', "{$local}.{$localKey}")
                 ->where("{$table}.model_type", '=', $morph)
                 ->where("{$table}.locale", '=', $locale);
         });
 
         // driver-specific order expression
-        $driver = $query->getModel()->getConnection()->getDriverName();
         $order = match ($driver) {
             'mysql', 'mariadb' => sprintf(
                 'COALESCE(JSON_UNQUOTE(JSON_EXTRACT(%s.strings, \'$."%s"\')), %s.%s)',

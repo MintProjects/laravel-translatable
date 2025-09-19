@@ -14,7 +14,7 @@ class TranslatableServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/translatable.php',
-            'laravel-translatable-translatable'
+            'translatable'
         );
     }
 
@@ -27,5 +27,9 @@ class TranslatableServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/translatable.php' => config_path('translatable.php'),
         ], 'laravel-translatable-config');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/create_translations_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_translations_table.php'),
+        ], 'laravel-translatable-migrations');
     }
 }
