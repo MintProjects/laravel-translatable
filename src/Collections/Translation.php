@@ -25,6 +25,8 @@ class Translation extends Model
 
     /**
      * The attributes that should be cast.
+     * @note using 'strings' => 'array' (or 'object') destroys the "MongoDB\Model\BSONDocument"
+     *       casting, for whatever reason.
      * @var array
      */
     protected $casts = [

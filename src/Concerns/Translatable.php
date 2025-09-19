@@ -12,25 +12,25 @@ use Mint\Translatable\Models\Translation;
 trait Translatable
 {
     /**
-     * Pending Translations
+     * Holds pending translations to be saved.
      * @var array
      */
     protected $pendingTranslations = [];
 
     /**
-     *
+     * Cached translations for quick lookup by locale.
      * @var array<string,MongoDBTranslation|Translation|null>
      */
     protected array $translationCache = [];
 
     /**
-     * Current used Locale
+     * Currently active locale for this model instance.
      * @var mixed
      */
     protected $currentLocale = null;
 
     /**
-     * Boot this trait.
+     * Boot the Translatable trait and register model event listeners.
      * @return void
      */
     static public function bootTranslatable()
@@ -62,7 +62,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Check whether the current connection (or given target) uses the MongoDB driver.
      * @param null|Builder|Model $target
      * @return bool
      */
@@ -74,7 +74,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Clear the translation cache, either for a specific locale or for all.
      * @param null|string $locale
      * @return void
      */
@@ -89,7 +89,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Resolve which translation model class should be used.
      * @return string
      * @throws InvalidArgumentException
      */
@@ -127,7 +127,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Create a new instance of the translation model.
      * @return Model
      * @throws InvalidArgumentException
      */
@@ -137,7 +137,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Get a new query builder for the translation model.
      * @return Builder
      */
     protected function translationQuery(): Builder
@@ -146,7 +146,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Retrieve the translation model for the given locale (with caching).
      * @param string $locale
      * @return mixed
      */
@@ -169,7 +169,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Return the list of cast types considered as "array-like".
      * @return array
      */
     protected function arrayLikeCastTypes(): array
@@ -189,7 +189,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Return the list of attributes considered as "array-like".
      * @return array
      */
     protected function arrayLikeAttributes(): array
@@ -203,7 +203,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Determine if the given attribute is considered "array-like".
      * @param string $key
      * @return bool
      */
@@ -217,7 +217,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Get the application's fallback locale (base locale).
      * @return string
      */
     public function getBaseLocale(): string
@@ -226,7 +226,7 @@ trait Translatable
     }
 
     /**
-     * Change to the passed locale by mutating current instance.
+     * Switch the current model instance to a given locale (mutates instance).
      * @param ?string $locale
      * @return static
      */
@@ -237,7 +237,7 @@ trait Translatable
     }
 
     /**
-     * Change to the passed locale without mutating current instance.
+     * Switch to a given locale without mutating the current model (returns clone).
      * @param null|string $locale
      * @return static
      */
@@ -249,7 +249,7 @@ trait Translatable
     }
 
     /**
-     * Temporarily change currently used locale
+     * Temporarily switch the locale for the given callback and then restore it.
      * @param null|string $locale
      * @param callable $callback
      * @return mixed
@@ -267,7 +267,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Retrieve a model attribute, applying translations if available for the current locale.
      * @param mixed $key
      * @return mixed
      */
@@ -288,7 +288,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Set a model attribute, redirecting to translations if needed.
      * @param mixed $key
      * @param mixed $value
      * @return mixed
@@ -333,7 +333,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Set a translation value for a specific attribute and locale.
      * @param string $locale
      * @param string $key
      * @param mixed $value
@@ -359,7 +359,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Get a translation value for a specific attribute and locale.
      * @param string $locale
      * @param string $key
      * @param bool $fallback
@@ -388,7 +388,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Get all translations for the model, or only for a specific locale.
      * @param null|string $locale
      * @return array
      */
@@ -399,7 +399,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Remove a translation for a given attribute and locale.
      * @param string $locale
      * @param string $key
      * @return void
@@ -420,7 +420,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Define the "translations" relationship (morph-many).
      * @return HasMany
      */
     public function translations(): HasMany
@@ -430,7 +430,36 @@ trait Translatable
     }
 
     /**
-     *
+     * Accessor: Return all localizations for the model as an array.
+     * @return array
+     */
+    public function localizations(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): array => $this->translations
+                ->mapWithKeys(fn ($model) => [$model->locale => $model->strings])
+                ->toArray()
+        );
+    }
+
+    /**
+     * Convert the model to array, applying the current locale if necessary.
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $locale = $this->currentLocale ?? app()->getLocale();
+        if ($locale != $this->getBaseLocale()) {
+            foreach ($this->translatable ?? [] as $key) {
+                $array[$key] = $this->getAttribute($key);
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * Scope: Filter models where a given attribute has a translation in the specified locale.
      * @param Builder $query
      * @param string $locale
      * @param string $key
@@ -454,7 +483,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Scope: Filter models that have at least one translation for the specified locale.
      * @param Builder $query
      * @param string $locale
      * @return Builder
@@ -475,7 +504,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Scope: Filter models that are missing a translation for the specified locale.
      * @param Builder $query
      * @param string $locale
      * @return Builder
@@ -506,7 +535,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Scope: Alias for whereMissingLocale().
      * @param Builder $query
      * @param string $locale
      * @return Builder
@@ -517,7 +546,7 @@ trait Translatable
     }
 
     /**
-     *
+     * Scope: Order models by the translated value of a given attribute for a specific locale.
      * @param Builder $query
      * @param string $locale
      * @param mixed $key
@@ -572,13 +601,13 @@ trait Translatable
     }
 
     /**
-     *
+     * Add a JSON WHERE clause for the given driver and key/value pair.
      * @param Builder $query
      * @param string $column
      * @param string $key
      * @param string $value
      * @return Builder
-     *
+     * @throws InvalidArgumentException
      */
     protected function jsonWhere(Builder $query, string $column, string $key, string $value)
     {
@@ -600,36 +629,5 @@ trait Translatable
                 $driver
             )),
         };
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function localizations(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): array => $this->translations
-                ->mapWithKeys(fn ($model) => [$model->locale => $model->strings])
-                ->toArray()
-        );
-    }
-
-    /**
-     * Convert the model instance to an array.
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = parent::toArray();
-
-        $locale = $this->currentLocale ?? app()->getLocale();
-        if ($locale != $this->getBaseLocale()) {
-            foreach ($this->translatable ?? [] as $key) {
-                $array[$key] = $this->getAttribute($key);
-            }
-        }
-
-        return $array;
     }
 }
