@@ -2,7 +2,8 @@ rat.md/laravel-translatable / Changelog
 =======================================
 
 ## Version 0.1.1 (Beta)
-- Change Composer namespace.
+- Update: Change Composer namespace.
+- Fix: Wrong asset naming.
 
 ## Version 0.1.0 (Beta)
 - Initial Release.
