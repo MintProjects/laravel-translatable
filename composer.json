@@ -1,0 +1,73 @@
+{
+    "name": "mint/laravel-translatable",
+    "version": "0.1.0",
+    "description": "Awesome translatable Laravel Eloquent models (for MySQL, MariaDB, PostgreSQL, SQLite & MongoDB).",
+    "keywords": [
+        "mint",
+        "laravel",
+        "translatable"
+    ],
+    "homepage": "https://github.com/MintProjects/translatable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam",
+            "email": "sam@mint.md",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/database": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "larastan/larastan": "^3.0",
+        "mongodb/laravel-mongodb": "^5.0",
+        "nunomaduro/collision": "^8.8",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mint\\Translatable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mint\\Translatable\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "suggest": {
+        "mongodb/laravel-mongodb": "Required to use MongoDB as database driver."
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mint\\Translatable\\TranslatableServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
