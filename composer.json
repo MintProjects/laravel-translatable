@@ -1,6 +1,6 @@
 {
     "name": "rat.md/laravel-translatable",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Awesome translatable Laravel Eloquent models (for MySQL, MariaDB, PostgreSQL, SQLite & MongoDB).",
     "keywords": [
         "rat",
