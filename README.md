@@ -1,5 +1,5 @@
-mint/laravel-translatable
-=========================
+rat.md/laravel-translatable
+===========================
 
 Most Laravel “translatable” packages force you to either convert your translatable attributes into a 
 JSON column on the same table (for storing all strings on one place), or requires you to create and 
@@ -8,7 +8,7 @@ maintain a dedicated `{model}_translations` table for each model.
 Both approaches work, but they either bloat your base table with JSON logic or force you to manage a 
 growing number of nearly identical tables.
 
-`mint/laravel-translatable` takes a different path — inspired by OctoberCMS — by using a 
+`rat.md/laravel-translatable` takes a different path — inspired by OctoberCMS — by using a 
 **single, shared translations table** for all your models.
 
 ## Features
@@ -33,7 +33,7 @@ growing number of nearly identical tables.
 Install the package via composer:
 
 ```bash
-composer require mint/laravel-translatable
+composer require rat.md/laravel-translatable
 ```
 
 Publish and run the migrations using:
@@ -58,7 +58,7 @@ support translations. Array-Like attributes must be declared either in your `$ca
 package-native `$translatableArrayAttributes` model property.
 
 ```php
-use Mint\Translatable\Concerns\Translatable;
+use Rat\Translatable\Concerns\Translatable;
 
 class Post extends Model
 {
@@ -159,4 +159,4 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## License
 Published under MIT License \
-Copyright © 2024 - 2025 Sam @ Mint
+Copyright © 2024 - 2025 Sam @ rat.md

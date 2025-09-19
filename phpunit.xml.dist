@@ -16,7 +16,7 @@
     backupStaticProperties="false"
 >
     <testsuites>
-        <testsuite name="Mint/LaravelTranslatable Test Suite">
+        <testsuite name="Rat/LaravelTranslatable Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

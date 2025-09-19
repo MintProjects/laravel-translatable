@@ -1,7 +1,5 @@
 <?php
 
-use Mint\Translatable\Collections\Translation;
-
 it('filters using whereLocale() scope', function () {
     $a = get_post_class()::create(['title' => 'Hello']);
     $b = get_post_class()::create(['title' => 'World']);

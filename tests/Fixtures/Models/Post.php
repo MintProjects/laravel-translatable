@@ -1,9 +1,9 @@
 <?php
 
-namespace Mint\Translatable\Tests\Fixtures\Models;
+namespace Rat\Translatable\Tests\Fixtures\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Mint\Translatable\Concerns\Translatable;
+use Rat\Translatable\Concerns\Translatable;
 
 class Post extends Model
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Mint\Translatable\Tests;
+namespace Rat\Translatable\Tests;
 
 use Illuminate\Foundation\Application;
-use Mint\Translatable\TranslatableServiceProvider;
+use Rat\Translatable\TranslatableServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -64,7 +64,7 @@ class TestCase extends Orchestra
         $driver = env('DB_CONNECTION', 'sqlite');
         $app['config']->set('database.default', $driver);
 
-        $app['config']->set('translatable.test_model', \Mint\Translatable\Tests\Fixtures\Models\Post::class);
+        $app['config']->set('translatable.test_model', \Rat\Translatable\Tests\Fixtures\Models\Post::class);
         switch ($driver) {
             case 'mysql':
                 $app['config']->set('database.connections.mysql', [
@@ -116,8 +116,8 @@ class TestCase extends Orchestra
                     'username' => env('DB_USERNAME', null),
                     'password' => env('DB_PASSWORD', null),
                 ]);
-                $app['config']->set('translatable.translatable_model', \Mint\Translatable\Collections\Translation::class);
-                $app['config']->set('translatable.test_model', \Mint\Translatable\Tests\Fixtures\Collections\Post::class);
+                $app['config']->set('translatable.translatable_model', \Rat\Translatable\Collections\Translation::class);
+                $app['config']->set('translatable.test_model', \Rat\Translatable\Tests\Fixtures\Collections\Post::class);
                 break;
             default:
                 $app['config']->set('database.connections.sqlite', [

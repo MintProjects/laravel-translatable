@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mint\Translatable;
+namespace Rat\Translatable;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mint\Translatable\Collections;
+namespace Rat\Translatable\Collections;
 
 use MongoDB\Laravel\Eloquent\Model;
 

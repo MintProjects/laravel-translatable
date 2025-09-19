@@ -1,9 +1,9 @@
 <?php
 
-namespace Mint\Translatable\Tests\Fixtures\Collections;
+namespace Rat\Translatable\Tests\Fixtures\Collections;
 
 use MongoDB\Laravel\Eloquent\Model;
-use Mint\Translatable\Concerns\Translatable;
+use Rat\Translatable\Concerns\Translatable;
 
 class Post extends Model
 {

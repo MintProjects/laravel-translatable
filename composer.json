@@ -1,19 +1,19 @@
 {
-    "name": "mint/laravel-translatable",
+    "name": "rat.md/laravel-translatable",
     "version": "0.1.0",
     "description": "Awesome translatable Laravel Eloquent models (for MySQL, MariaDB, PostgreSQL, SQLite & MongoDB).",
     "keywords": [
-        "mint",
+        "rat",
         "laravel",
         "eloquent",
         "translatable"
     ],
-    "homepage": "https://mint.md/laravel-translatable",
+    "homepage": "https://rat.md/laravel-translatable",
     "license": "MIT",
     "authors": [
         {
             "name": "Sam",
-            "email": "sam@mint.md",
+            "email": "sam@rat.md",
             "role": "Developer"
         }
     ],
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Mint\\Translatable\\": "src/"
+            "Rat\\Translatable\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mint\\Translatable\\Tests\\": "tests/"
+            "Rat\\Translatable\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -58,7 +58,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mint\\Translatable\\TranslatableServiceProvider"
+                "Rat\\Translatable\\TranslatableServiceProvider"
             ]
         }
     },

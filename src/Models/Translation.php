@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mint\Translatable\Models;
+namespace Rat\Translatable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

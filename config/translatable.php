@@ -43,5 +43,5 @@ return [
      | used by the Translatable trait to store and retrieve localized values.
      |
      */
-    'translatable_model' => \Mint\Translatable\Models\Translation::class,
+    'translatable_model' => \Rat\Translatable\Models\Translation::class,
 ];

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Mint\Translatable\Concerns;
+namespace Rat\Translatable\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Mint\Translatable\Collections\Translation as MongoDBTranslation;
-use Mint\Translatable\Models\Translation;
+use Rat\Translatable\Collections\Translation as MongoDBTranslation;
+use Rat\Translatable\Models\Translation;
 
 trait Translatable
 {
